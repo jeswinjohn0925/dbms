@@ -1,0 +1,75 @@
+use inventory
+
+
+db.products.insertMany([
+{ "_id" : 1, "name" : "Phone", "price" : 799, "releaseDate": ISODate("2011-05-24"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66},"color":["white","black"],"storage":[64,128,256]},
+{ "_id" : 2, "name" : "Tablet", "price" : 799, "releaseDate": ISODate("2011-09-01"), "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66},"color":["white","black","purple"],"storage":[128,256,512]},
+{ "_id" : 3, "name" : "SmartPhone", "price" : 899, "releaseDate": ISODate("2022-01-14"), "spec" :{ "ram" : 12, "screen" : 9.7, "cpu" : 1.66},"color":["blue"],"storage":[16,64,128]}
+])
+
+
+db.products.find()
+
+
+db.products.find({_id:3})
+
+
+db.products.findOne()
+
+
+db.products.find({_id:2},{name:1,price:1})
+
+
+db.products.find({price: {$eq: 799}})
+
+
+db.products.deleteOne({_id: 1})
+
+
+db.products.find({"spec.ram": {$eq: 12}}, {name: 1,"spec.ram": 1})
+
+
+db.products.find({"spec.screen": {$lt: 7}})
+
+
+db.products.find({price:{$lt:1000}},{name:1,price:1})
+
+
+db.products.find({price: {$in: [699, 799]}}, {name: 1,price: 1})
+
+
+db.products.find({color:{$in:["black","white"]}})
+
+
+db.products.find({price: {$nin: [699, 799]}}, {name: 1,price: 1})
+
+
+db.products.find({
+$and: [
+{price: 799},
+{color: {$in: ["white", "black"]}}
+]
+}, {name: 1,price: 1,color: 1})
+
+
+db.products.find({
+$or: [
+{ price: { $lt: 699 } },
+{ price: { $gt: 799 } }
+]
+})
+
+
+db.products.find(
+{releaseDate: {$exists: 1}},
+{name: 1,releaseDate: 1}
+).sort({releaseDate: -1})
+
+
+db.products.find().sort({ name: 1, price: 1 })
+
+
+db.products.find().sort({ price: -1 }).limit(1)
+
+
+db.products.find().skip(2).limit(2);
